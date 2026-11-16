@@ -1,0 +1,86 @@
+name: Build Graphics Demo (Godot 4.4 → Android APK)
+
+on:
+  push:
+    branches: [main]
+    paths: [showcase-godot/**, .github/workflows/godot-android.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Cache Godot editor + export templates
+        uses: actions/cache@v4
+        with:
+          path: godot
+          key: godot-4.4.1-stable-v1
+
+      - name: Download Godot 4.4.1 and export templates
+        run: |
+          mkdir -p godot/editor_data/export_templates/4.4.1.stable
+          touch godot/._sc_
+          if [ ! -f godot/editor_data/export_templates/4.4.1.stable/version.txt ]; then
+            curl -sSL -o /tmp/g.zip https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_linux.x86_64.zip
+            unzip -q -o /tmp/g.zip -d godot/
+            curl -sSL -o /tmp/t.tpz https://github.com/godotengine/godot/releases/download/4.4.1-stable/Godot_v4.4.1-stable_export_templates.tpz
+            unzip -q -o /tmp/t.tpz -d /tmp/t
+            cp /tmp/t/templates/* godot/editor_data/export_templates/4.4.1.stable/
+            rm -f /tmp/g.zip /tmp/t.tpz
+            rm -rf /tmp/t
+          fi
+          chmod +x godot/Godot_v4.4.1-stable_linux.x86_64
+
+      - name: Import assets
+        run: >
+          ./godot/Godot_v4.4.1-stable_linux.x86_64 --headless
+          --path showcase-godot --import
+
+      - name: Install Android build template
+        run: >
+          ./godot/Godot_v4.4.1-stable_linux.x86_64 --headless
+          --path showcase-godot --install-android-build-template
+
+      - name: Configure editor settings (SDK paths)
+        run: |
+          cat > godot/editor_data/editor_settings-4.4.1.tres <<EOF
+          [export]
+
+          android/android_sdk_path="/usr/local/lib/android/sdk"
+          android/java_sdk_path="${JAVA_HOME}"
+          EOF
+
+      - name: Export Android APK (release, signed)
+        env:
+          ANDROID_HOME: /usr/local/lib/android/sdk
+        run: >
+          ./godot/Godot_v4.4.1-stable_linux.x86_64 --headless
+          --path showcase-godot --export-release "Android"
+          builds/SAP-GraphicsDemo-v0.2.0.apk
+
+      - name: Verify APK
+        run: |
+          ls -la showcase-godot/builds/
+          test -s showcase-godot/builds/SAP-GraphicsDemo-v0.2.0.apk
+          sha256sum showcase-godot/builds/*.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: SAP-GraphicsDemo-APK
+          path: showcase-godot/builds/*.apk
+
+      - name: Publish release when a tag is pushed
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: showcase-godot/builds/*.apk

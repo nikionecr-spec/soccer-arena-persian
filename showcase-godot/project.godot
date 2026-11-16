@@ -1,0 +1,29 @@
+; Engine configuration file — Soccer Arena Persian "hyper-graphics" showcase
+; Godot 4.4.1 — Mobile renderer (Vulkan) for Android
+
+config_version=5
+
+[application]
+
+config/name="ساکر آرنا پرشین — دموی ابرگرافیکی"
+run/main_scene="res://scenes/arena.tscn"
+config/features=PackedStringArray("4.4", "Mobile")
+config/icon="res://icon.png"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=4
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[rendering]
+
+renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
+anti_aliasing/quality/msaa_3d=2

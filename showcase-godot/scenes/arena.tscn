@@ -1,0 +1,479 @@
+[gd_scene load_steps=45 format=3]
+
+[ext_resource type="Script" path="res://scripts/arena.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/ball.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/camera_rig.gd" id="3"]
+[ext_resource type="Script" path="res://scripts/goal.gd" id="4"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="5"]
+[ext_resource type="Texture2D" path="res://assets/textures/pitch_diffuse.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/textures/pitch_normal.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/textures/ball_diffuse.png" id="8"]
+[ext_resource type="Texture2D" path="res://assets/textures/stands_diffuse.png" id="9"]
+[ext_resource type="Texture2D" path="res://assets/textures/net.png" id="10"]
+[ext_resource type="Texture2D" path="res://assets/textures/mist.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/textures/flash.png" id="12"]
+[ext_resource type="FontFile" path="res://assets/fonts/Vazirmatn-Regular-sub.ttf" id="13"]
+[ext_resource type="FontFile" path="res://assets/fonts/Vazirmatn-Bold-sub.ttf" id="14"]
+
+[sub_resource type="ProceduralSkyMaterial" id="skymat"]
+sky_top_color = Color(0.045, 0.06, 0.115, 1)
+sky_horizon_color = Color(0.17, 0.14, 0.21, 1)
+sky_curve = 0.12
+ground_bottom_color = Color(0.03, 0.035, 0.055, 1)
+ground_horizon_color = Color(0.17, 0.14, 0.21, 1)
+sun_angle_max = 30.0
+
+[sub_resource type="Sky" id="sky"]
+sky_material = SubResource("skymat")
+
+[sub_resource type="Environment" id="env"]
+background_mode = 2
+sky = SubResource("sky")
+ambient_light_source = 3
+ambient_light_energy = 0.4
+tonemap_mode = 3
+tonemap_exposure = 1.15
+glow_enabled = true
+glow_intensity = 0.9
+glow_bloom = 0.12
+fog_enabled = true
+fog_light_color = Color(0.35, 0.38, 0.5, 1)
+fog_density = 0.014
+fog_sky_affect = 0.25
+adjustment_enabled = true
+adjustment_contrast = 1.03
+adjustment_saturation = 1.07
+
+[sub_resource type="PhysicsMaterial" id="physmat"]
+friction = 0.8
+bounce = 0.62
+
+[sub_resource type="PlaneMesh" id="pitch_plane"]
+size = Vector2(60, 38)
+
+[sub_resource type="StandardMaterial3D" id="pitch_mat"]
+albedo_texture = ExtResource("6")
+roughness = 0.34
+normal_enabled = true
+normal_scale = 0.7
+normal_texture = ExtResource("7")
+
+[sub_resource type="SphereMesh" id="ball_sphere"]
+radius = 1.1
+height = 2.2
+radial_segments = 32
+rings = 16
+
+[sub_resource type="StandardMaterial3D" id="ball_mat"]
+albedo_texture = ExtResource("8")
+metallic = 0.05
+roughness = 0.22
+
+[sub_resource type="SphereShape3D" id="ball_shape"]
+radius = 1.1
+
+[sub_resource type="BoxShape3D" id="wall_x"]
+size = Vector3(1, 8, 40)
+
+[sub_resource type="BoxShape3D" id="wall_z"]
+size = Vector3(64, 8, 1)
+
+[sub_resource type="BoxShape3D" id="goal_shape"]
+size = Vector3(2.4, 3.2, 7.2)
+
+[sub_resource type="BoxMesh" id="tower_box"]
+size = Vector3(2.2, 14, 2.2)
+
+[sub_resource type="StandardMaterial3D" id="tower_mat"]
+albedo_color = Color(0.1, 0.11, 0.13, 1)
+metallic = 0.5
+roughness = 0.45
+
+[sub_resource type="BoxMesh" id="head_box"]
+size = Vector3(3.6, 1.3, 1.3)
+
+[sub_resource type="StandardMaterial3D" id="head_mat"]
+albedo_color = Color(0.95, 0.93, 0.85, 1)
+emission_enabled = true
+emission = Color(1.4, 1.3, 1.1, 1)
+emission_energy_multiplier = 3.0
+
+[sub_resource type="BoxMesh" id="stands_ns"]
+size = Vector3(70, 9, 10)
+
+[sub_resource type="BoxMesh" id="stands_ew"]
+size = Vector3(10, 9, 56)
+
+[sub_resource type="StandardMaterial3D" id="stands_mat"]
+albedo_texture = ExtResource("9")
+roughness = 0.85
+uv1_scale = Vector3(6, 1, 1)
+
+[sub_resource type="CylinderMesh" id="post_cyl"]
+top_radius = 0.22
+bottom_radius = 0.22
+height = 3.6
+
+[sub_resource type="CylinderMesh" id="bar_cyl"]
+top_radius = 0.22
+bottom_radius = 0.22
+height = 7.6
+
+[sub_resource type="StandardMaterial3D" id="post_mat"]
+albedo_color = Color(0.92, 0.93, 0.96, 1)
+metallic = 0.35
+roughness = 0.28
+
+[sub_resource type="PlaneMesh" id="net_plane"]
+size = Vector2(7.6, 3.6)
+
+[sub_resource type="StandardMaterial3D" id="net_mat"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.85)
+albedo_texture = ExtResource("10")
+cull_mode = 2
+
+[sub_resource type="StandardMaterial3D" id="flash_mat"]
+transparency = 1
+shading_mode = 0
+blend_mode = 1
+billboard_mode = 3
+billboard_keep_scale = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(2.6, 2.5, 2.2, 1)
+albedo_texture = ExtResource("12")
+
+[sub_resource type="QuadMesh" id="flash_quad"]
+size = Vector2(0.5, 0.5)
+material = SubResource("flash_mat")
+
+[sub_resource type="StandardMaterial3D" id="mist_mat"]
+transparency = 1
+shading_mode = 0
+billboard_mode = 3
+billboard_keep_scale = true
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.6, 0.65, 0.8, 0.5)
+albedo_texture = ExtResource("11")
+
+[sub_resource type="QuadMesh" id="mist_quad"]
+size = Vector2(7, 7)
+material = SubResource("mist_mat")
+
+[sub_resource type="ParticleProcessMaterial" id="flash_ppm"]
+emission_shape = 3
+emission_box_extents = Vector3(33, 5, 27)
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 1.6
+lifetime_randomness = 0.9
+color = Color(1, 0.95, 0.85, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="mist_ppm"]
+emission_shape = 3
+emission_box_extents = Vector3(26, 2, 16)
+direction = Vector3(1, 0, 0)
+spread = 10.0
+initial_velocity_min = 0.4
+initial_velocity_max = 0.9
+gravity = Vector3(0, 0, 0)
+scale_min = 5.0
+scale_max = 10.0
+color = Color(0.6, 0.65, 0.8, 0.5)
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.57, -0.82, 0, 0.82, 0.57, 0, 20, 0)
+light_color = Color(0.45, 0.55, 0.8, 1)
+light_energy = 0.35
+shadow_enabled = true
+directional_shadow_max_distance = 120.0
+
+[node name="Pitch" type="MeshInstance3D" parent="."]
+mesh = SubResource("pitch_plane")
+surface_material_override/0 = SubResource("pitch_mat")
+
+[node name="Walls" type="StaticBody3D" parent="."]
+
+[node name="WallX1" type="CollisionShape3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.6, 4, 0)
+shape = SubResource("wall_x")
+
+[node name="WallX2" type="CollisionShape3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.6, 4, 0)
+shape = SubResource("wall_x")
+
+[node name="WallZ1" type="CollisionShape3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 20.4)
+shape = SubResource("wall_z")
+
+[node name="WallZ2" type="CollisionShape3D" parent="Walls"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -20.4)
+shape = SubResource("wall_z")
+
+[node name="Ball" type="RigidBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+physics_material_override = SubResource("physmat")
+mass = 0.45
+linear_damp = 0.25
+angular_damp = 0.6
+script = ExtResource("2")
+
+[node name="Mesh" type="MeshInstance3D" parent="Ball"]
+mesh = SubResource("ball_sphere")
+surface_material_override/0 = SubResource("ball_mat")
+
+[node name="Shape" type="CollisionShape3D" parent="Ball"]
+shape = SubResource("ball_shape")
+
+[node name="GoalA" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 0)
+script = ExtResource("4")
+
+[node name="Area" type="Area3D" parent="GoalA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 1.7, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="GoalA/Area"]
+shape = SubResource("goal_shape")
+
+[node name="Post1" type="MeshInstance3D" parent="GoalA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -3.8)
+mesh = SubResource("post_cyl")
+surface_material_override/0 = SubResource("post_mat")
+
+[node name="Post2" type="MeshInstance3D" parent="GoalA"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 3.8)
+mesh = SubResource("post_cyl")
+surface_material_override/0 = SubResource("post_mat")
+
+[node name="Bar" type="MeshInstance3D" parent="GoalA"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 3.6, 0)
+mesh = SubResource("bar_cyl")
+surface_material_override/0 = SubResource("post_mat")
+
+[node name="Net" type="MeshInstance3D" parent="GoalA"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -0.9, 1.8, 0)
+mesh = SubResource("net_plane")
+surface_material_override/0 = SubResource("net_mat")
+
+[node name="GoalB" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 0)
+script = ExtResource("4")
+
+[node name="Area" type="Area3D" parent="GoalB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 1.7, 0)
+
+[node name="Shape" type="CollisionShape3D" parent="GoalB/Area"]
+shape = SubResource("goal_shape")
+
+[node name="Post1" type="MeshInstance3D" parent="GoalB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -3.8)
+mesh = SubResource("post_cyl")
+surface_material_override/0 = SubResource("post_mat")
+
+[node name="Post2" type="MeshInstance3D" parent="GoalB"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 3.8)
+mesh = SubResource("post_cyl")
+surface_material_override/0 = SubResource("post_mat")
+
+[node name="Bar" type="MeshInstance3D" parent="GoalB"]
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 3.6, 0)
+mesh = SubResource("bar_cyl")
+surface_material_override/0 = SubResource("post_mat")
+
+[node name="Net" type="MeshInstance3D" parent="GoalB"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, 0.9, 1.8, 0)
+mesh = SubResource("net_plane")
+surface_material_override/0 = SubResource("net_mat")
+
+[node name="Floodlights" type="Node3D" parent="."]
+
+[node name="Tower1" type="MeshInstance3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 7, -24)
+mesh = SubResource("tower_box")
+surface_material_override/0 = SubResource("tower_mat")
+
+[node name="Head1" type="MeshInstance3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 14.6, -24)
+mesh = SubResource("head_box")
+surface_material_override/0 = SubResource("head_mat")
+
+[node name="Light1" type="OmniLight3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 14, -20)
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 1.6
+omni_range = 60.0
+omni_attenuation = 1.2
+
+[node name="Tower2" type="MeshInstance3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 7, -24)
+mesh = SubResource("tower_box")
+surface_material_override/0 = SubResource("tower_mat")
+
+[node name="Head2" type="MeshInstance3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 14.6, -24)
+mesh = SubResource("head_box")
+surface_material_override/0 = SubResource("head_mat")
+
+[node name="Light2" type="OmniLight3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 14, -20)
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 1.6
+omni_range = 60.0
+omni_attenuation = 1.2
+
+[node name="Tower3" type="MeshInstance3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 7, 24)
+mesh = SubResource("tower_box")
+surface_material_override/0 = SubResource("tower_mat")
+
+[node name="Head3" type="MeshInstance3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34, 14.6, 24)
+mesh = SubResource("head_box")
+surface_material_override/0 = SubResource("head_mat")
+
+[node name="Light3" type="OmniLight3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 14, 20)
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 1.6
+omni_range = 60.0
+omni_attenuation = 1.2
+
+[node name="Tower4" type="MeshInstance3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 7, 24)
+mesh = SubResource("tower_box")
+surface_material_override/0 = SubResource("tower_mat")
+
+[node name="Head4" type="MeshInstance3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 34, 14.6, 24)
+mesh = SubResource("head_box")
+surface_material_override/0 = SubResource("head_mat")
+
+[node name="Light4" type="OmniLight3D" parent="Floodlights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 14, 20)
+light_color = Color(1, 0.96, 0.88, 1)
+light_energy = 1.6
+omni_range = 60.0
+omni_attenuation = 1.2
+
+[node name="Stands" type="Node3D" parent="."]
+
+[node name="North" type="MeshInstance3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, -27)
+mesh = SubResource("stands_ns")
+surface_material_override/0 = SubResource("stands_mat")
+
+[node name="South" type="MeshInstance3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.5, 27)
+mesh = SubResource("stands_ns")
+surface_material_override/0 = SubResource("stands_mat")
+
+[node name="East" type="MeshInstance3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 4.5, 0)
+mesh = SubResource("stands_ew")
+surface_material_override/0 = SubResource("stands_mat")
+
+[node name="West" type="MeshInstance3D" parent="Stands"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 4.5, 0)
+mesh = SubResource("stands_ew")
+surface_material_override/0 = SubResource("stands_mat")
+
+[node name="CrowdFlashes" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+amount = 50
+lifetime = 0.35
+process_material = SubResource("flash_ppm")
+draw_pass_1 = SubResource("flash_quad")
+
+[node name="Mist" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+amount = 22
+lifetime = 9.0
+preprocess = 6.0
+process_material = SubResource("mist_ppm")
+draw_pass_1 = SubResource("mist_quad")
+
+[node name="BoardTitle" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.5, -26)
+billboard = 1
+text = "ساکر آرنا پرشین"
+font = ExtResource("14")
+font_size = 320
+outline_size = 48
+pixel_size = 0.01
+
+[node name="BoardSub" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10.6, -26)
+billboard = 1
+modulate = Color(0.75, 0.85, 1, 1)
+text = "دموی ابرگرافیکی — موتور Godot ۴"
+font = ExtResource("13")
+font_size = 160
+outline_size = 32
+pixel_size = 0.01
+
+[node name="CameraRig" type="Node3D" parent="."]
+script = ExtResource("3")
+
+[node name="Camera3D" type="Camera3D" parent="CameraRig"]
+fov = 60.0
+near = 0.1
+far = 250.0
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("5")
+
+[node name="Score" type="Label" parent="HUD"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 16.0
+offset_bottom = 92.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.95, 0.98, 1, 1)
+theme_override_fonts/font = ExtResource("14")
+theme_override_font_sizes/font_size = 54
+text = "۰  —  ۰"
+horizontal_alignment = 1
+
+[node name="Msg" type="Label" parent="HUD"]
+anchor_top = 0.3
+anchor_right = 1.0
+anchor_bottom = 0.44
+offset_bottom = 0.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.5, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.6)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("14")
+theme_override_font_sizes/font_size = 58
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FPS" type="Label" parent="HUD"]
+offset_left = 16.0
+offset_top = 14.0
+offset_right = 220.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(0.6, 0.65, 0.75, 1)
+theme_override_fonts/font = ExtResource("13")
+theme_override_font_sizes/font_size = 24
+text = "FPS  —"
+
+[node name="QBtn" type="Button" parent="HUD"]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -190.0
+offset_top = 14.0
+offset_right = -16.0
+offset_bottom = 60.0
+grow_horizontal = 0
+theme_override_fonts/font = ExtResource("13")
+theme_override_font_sizes/font_size = 24
+text = "کیفیت گرافیکی"

@@ -18,3 +18,4 @@ android/android/local.properties
 
 # logs
 *.log
+showcase-godot/builds/
