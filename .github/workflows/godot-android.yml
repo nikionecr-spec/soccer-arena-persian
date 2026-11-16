@@ -52,6 +52,7 @@ jobs:
           unzip -q godot/editor_data/export_templates/4.4.1.stable/android_source.zip -d showcase-godot/android/build
           chmod +x showcase-godot/android/build/gradlew
           echo "4.4.1.stable" > showcase-godot/android/.build_version
+          touch showcase-godot/android/.gdignore
 
       - name: Configure editor settings (SDK paths)
         run: |
