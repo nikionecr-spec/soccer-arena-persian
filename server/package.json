@@ -1,0 +1,20 @@
+{
+  "name": "soccer-arena-persian-server",
+  "version": "1.0.0",
+  "description": "Authoritative game server for Soccer Arena Persian (REST + WebSocket)",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "test:physics": "node test/physics.test.js",
+    "test:integration": "node test/integration.test.js"
+  },
+  "engines": { "node": ">=18" },
+  "dependencies": {
+    "ws": "^8.18.0"
+  },
+  "optionalDependencies": {
+    "pg": "^8.12.0"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

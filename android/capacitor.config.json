@@ -1,0 +1,12 @@
+{
+  "appId": "ir.soccerarena.persian",
+  "appName": "ساکر آرنا پرشین",
+  "webDir": "web",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "backgroundColor": "#0d1f2d"
+  }
+}

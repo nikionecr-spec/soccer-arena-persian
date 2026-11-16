@@ -1,0 +1,17 @@
+{
+  "name": "soccer-arena-persian-android",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Capacitor wrapper for the Soccer Arena Persian single-file client",
+  "scripts": {
+    "sync": "node sync.js && npx cap sync android",
+    "open": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "8.6.2",
+    "@capacitor/core": "8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.6.2"
+  }
+}

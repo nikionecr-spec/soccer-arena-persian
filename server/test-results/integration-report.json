@@ -1,0 +1,203 @@
+{
+  "startedAt": "2026-11-16T13:14:13.762Z",
+  "checks": [
+    {
+      "name": "server started",
+      "pass": true,
+      "detail": "[store] using in-memory store (data resets on restart; set DB_URL for persistence)"
+    },
+    {
+      "name": "register Persian username",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "register second user",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "duplicate username rejected",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "login works",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "bad password rejected",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "both clients authed via WS",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "move without match rejected",
+      "pass": true,
+      "detail": "no_match"
+    },
+    {
+      "name": "matchmaking paired both",
+      "pass": true,
+      "detail": "m_5628aebd4f38"
+    },
+    {
+      "name": "out-of-turn move rejected",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "enemy piece rejected",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "power > 1 rejected",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "opponent_left broadcast on disconnect",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "reconnect delivers state_sync",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "opponent_rejoin to opponent",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "physics parity server==client on every shot",
+      "pass": true,
+      "detail": "20 shots replayed"
+    },
+    {
+      "name": "full ranked match completed",
+      "pass": true,
+      "detail": "manual=20 auto=0 scores=3:0"
+    },
+    {
+      "name": "winner has 3 goals",
+      "pass": true,
+      "detail": "3:0"
+    },
+    {
+      "name": "auto shots during ranked match (if any, all parity-verified)",
+      "pass": true,
+      "detail": "0 auto shots"
+    },
+    {
+      "name": "winner rating rose (ELO)",
+      "pass": true,
+      "detail": "1016 vs 1000"
+    },
+    {
+      "name": "loser rating fell (ELO)",
+      "pass": true,
+      "detail": "984 vs 1000"
+    },
+    {
+      "name": "winner coins awarded",
+      "pass": true,
+      "detail": "580"
+    },
+    {
+      "name": "win/loss recorded",
+      "pass": true,
+      "detail": "1/1"
+    },
+    {
+      "name": "room created with code",
+      "pass": true,
+      "detail": "AD9XMC"
+    },
+    {
+      "name": "room join starts friendly match",
+      "pass": true,
+      "detail": "friendly"
+    },
+    {
+      "name": "resign ends match, opponent wins",
+      "pass": true,
+      "detail": "resign"
+    },
+    {
+      "name": "friendly match does not change rating",
+      "pass": true,
+      "detail": "1016"
+    },
+    {
+      "name": "rematch starts a new match",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "turn timeout triggers server auto shot",
+      "pass": true,
+      "detail": "piece=a3"
+    },
+    {
+      "name": "leaderboard has both users",
+      "pass": true,
+      "detail": "2"
+    },
+    {
+      "name": "match history recorded",
+      "pass": true,
+      "detail": "2"
+    },
+    {
+      "name": "shop catalog delivered",
+      "pass": true,
+      "detail": "9"
+    },
+    {
+      "name": "shop purchase works (coins deducted)",
+      "pass": true,
+      "detail": "coins=280"
+    },
+    {
+      "name": "equip purchased item",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "unaffordable purchase rejected",
+      "pass": true,
+      "detail": "no_coins"
+    },
+    {
+      "name": "friend request sent",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "friend request visible to target",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "friend request accepted",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "health endpoint",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "finishedAt": "2026-11-16T13:14:25.505Z",
+  "pass": 39,
+  "fail": 0
+}

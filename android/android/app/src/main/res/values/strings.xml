@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ساکر آرنا پرشین</string>
+    <string name="title_activity_main">ساکر آرنا پرشین</string>
+    <string name="package_name">ir.soccerarena.persian</string>
+    <string name="custom_url_scheme">ir.soccerarena.persian</string>
+</resources>

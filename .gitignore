@@ -1,0 +1,20 @@
+# production secrets — never commit
+.env
+
+# dependencies
+node_modules/
+server/node_modules/
+
+# machine-specific / generated
+android/local.properties
+android/web/
+
+# build outputs
+android/android/.gradle/
+android/android/build/
+android/android/app/build/
+android/android/capacitor-cordova-android-plugins/build/
+android/android/local.properties
+
+# logs
+*.log

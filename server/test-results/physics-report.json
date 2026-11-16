@@ -1,0 +1,140 @@
+{
+  "version": "1.2.0",
+  "startedAt": "2026-11-16T13:14:10.819Z",
+  "checks": [
+    {
+      "name": "T1 determinism (120-shot sequence x2 identical)",
+      "pass": true,
+      "detail": "19458 chars"
+    },
+    {
+      "name": "T2 fuzz 800 max-power shots: in-bounds",
+      "pass": true,
+      "detail": "0 violations"
+    },
+    {
+      "name": "T2 fuzz: no resting overlaps",
+      "pass": true,
+      "detail": "0 overlaps"
+    },
+    {
+      "name": "T2 fuzz: goals happened (sanity)",
+      "pass": true,
+      "detail": "40 goals in 800 random shots"
+    },
+    {
+      "name": "T3 goal into left goal detected, scoringTeam=1",
+      "pass": true,
+      "detail": "{\"scored\":1}"
+    },
+    {
+      "name": "T3 goal into right goal detected, scoringTeam=0",
+      "pass": true,
+      "detail": "{\"scored\":2}"
+    },
+    {
+      "name": "T4 post hit registered, no goal",
+      "pass": true,
+      "detail": "postEvents=51"
+    },
+    {
+      "name": "T4 ball stayed on/inside field after post hit",
+      "pass": true,
+      "detail": "x=833.7"
+    },
+    {
+      "name": "T5 corner deflect keeps ball in bounds",
+      "pass": true,
+      "detail": "x=482,y=508"
+    },
+    {
+      "name": "T6 settled state is stable for 600 frames",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "T7 impulse transfer ~ e=0.94 head-on",
+      "pass": true,
+      "detail": "vBmax=645.4 vAAfter=20.0"
+    },
+    {
+      "name": "T8 full-power shot settles < cap",
+      "pass": true,
+      "detail": "410 frames (6.8s)"
+    },
+    {
+      "name": "T9 no NaN/Inf across 300 shots",
+      "pass": true,
+      "detail": "0 bad values"
+    },
+    {
+      "name": "T10 shoot(angle,power) === shootV(integer vx,vy) replay",
+      "pass": true,
+      "detail": "v=(1135,980)"
+    },
+    {
+      "name": "T10 shootV validates team ownership",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "T11 calibration produced",
+      "pass": true,
+      "detail": "piece distances: 356, 676, 1140, 1557, 1927 | ball transfer @900: 964"
+    }
+  ],
+  "calibration": {
+    "pieceTravel": [
+      {
+        "power": 0.1,
+        "distance": 356,
+        "seconds": 4.18
+      },
+      {
+        "power": 0.25,
+        "distance": 676,
+        "seconds": 4.92
+      },
+      {
+        "power": 0.5,
+        "distance": 1140,
+        "seconds": 5.3
+      },
+      {
+        "power": 0.75,
+        "distance": 1557,
+        "seconds": 5.73
+      },
+      {
+        "power": 1,
+        "distance": 1927,
+        "seconds": 5.75
+      }
+    ],
+    "ballTransfer": [
+      {
+        "pieceSpeed": 900,
+        "maxBallSpeed": 964
+      },
+      {
+        "pieceSpeed": 900,
+        "maxBallSpeed": 964
+      },
+      {
+        "pieceSpeed": 900,
+        "maxBallSpeed": 964
+      },
+      {
+        "pieceSpeed": 900,
+        "maxBallSpeed": 964
+      },
+      {
+        "pieceSpeed": 900,
+        "maxBallSpeed": 964
+      }
+    ]
+  },
+  "finishedAt": "2026-11-16T13:14:13.719Z",
+  "pass": 16,
+  "fail": 0
+}
