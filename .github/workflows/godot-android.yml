@@ -66,10 +66,11 @@ jobs:
       - name: Export Android APK (release, signed)
         env:
           ANDROID_HOME: /usr/local/lib/android/sdk
-        run: >
-          ./godot/Godot_v4.4.1-stable_linux.x86_64 --headless
-          --path showcase-godot --export-release "Android"
-          builds/SAP-GraphicsDemo-v0.2.0.apk
+        run: |
+          mkdir -p showcase-godot/builds
+          ./godot/Godot_v4.4.1-stable_linux.x86_64 --headless \
+            --path showcase-godot --export-release "Android" \
+            builds/SAP-GraphicsDemo-v0.2.0.apk
 
       - name: Verify APK
         run: |
