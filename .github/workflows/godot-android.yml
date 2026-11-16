@@ -47,9 +47,10 @@ jobs:
           --path showcase-godot --import
 
       - name: Install Android build template
-        run: >
-          ./godot/Godot_v4.4.1-stable_linux.x86_64 --headless
-          --path showcase-godot --install-android-build-template
+        run: |
+          mkdir -p showcase-godot/android/build
+          unzip -q godot/editor_data/export_templates/4.4.1.stable/android_source.zip -d showcase-godot/android/build
+          chmod +x showcase-godot/android/build/gradlew
 
       - name: Configure editor settings (SDK paths)
         run: |
